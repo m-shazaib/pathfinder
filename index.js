@@ -33,7 +33,10 @@ class eventValues {
     checkEvents(event) {
       if (this.getOnClick() && this.getOnMouseover()) {
         changeCellColor(event);
-      } 
+      }
+       
+
+
        if (this.getOnDblclick()) {
         resetCellColor(event);
         this.setOnClick(false);
@@ -46,13 +49,13 @@ class eventValues {
   function changeCellColor(event) {
     var cell = event.target;
     cell.style.backgroundColor = 'red';
-    cell.style.transition = '.3s';
+    cell.style.transition = '.1s';
   }
   
   function resetCellColor(event) {
     var cell = event.target;
     cell.style.backgroundColor = 'white';
-    cell.style.transition = '.3s';
+    cell.style.transition = '.s';
   }
   
   var myEvent = new eventValues();
