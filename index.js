@@ -3,6 +3,7 @@ class eventValues {
     this.onClick = false;
     this.onMouseover = false;
     this.onDblclick = false;
+    this.onMouseDown = false;
   }
 
   setOnClick(state) {
@@ -11,6 +12,10 @@ class eventValues {
 
   setOnMouseover(state) {
     this.onMouseover = state;
+  }
+
+  setOnMouseDown(state) {
+    this.onMouseDown = state;
   }
 
   setOnDblclick(state) {
@@ -25,75 +30,100 @@ class eventValues {
     return this.onMouseover;
   }
 
+  getOnMouseDown() {
+    return this.onMouseDown;
+  }
+
   getOnDblclick() {
     return this.onDblclick;
   }
 
-  checkEvents(event) {
-    if (this.getOnClick()) {
-        
-      if (this.getOnMouseover()) {
-        changeCellColor(event);
+  eventsCheck(events, s_e) {
+    if (events === 'click') {
+      if (s_e === 'start') {
+        startCellColor(event.target);
+        this.setOnClick(false);
+      } else if (s_e === 'end') {
+        endCellColor(event.target);
+        this.setOnDblclick(false);
       }
+    } else if (events === 'dblclick') {
+      resetCellColor(event.target);
+    } else if (events === 'mouseover') {
+      walls(event.target);
+      this.setOnMouseover(false);
     }
-
-    if (this.getOnDblclick()) {
-      resetCellColor(event);
-    }
-
-    this.setOnClick(false);
-    this.setOnMouseover(false);
-    this.setOnDblclick(false);
   }
-
-
-
 }
 
-function startPoint() {
-  var start = document.getElementById('node-0-0');
-  start.style.backgroundColor = 'green';
-}
-
-function changeCellColor(event) {
-  var cell = event.target;
-  cell.style.backgroundColor = 'red';
-  cell.style.transition = '.2s';
-}
-
-function resetCellColor(event) {
-  var cell = event.target;
+function resetCellColor(cell) {
   cell.style.backgroundColor = 'white';
   cell.style.transition = '.3s';
 }
 
+function startCellColor(cell) {
+  if (cell.id == 'node-0-0') {
+    cell.style.backgroundColor = 'green';
+  } else {
+    cell.style.backgroundColor = 'green';
+  }
+}
+
+function endCellColor(cell) {
+  if (cell.id == 'node-14-32') {
+    cell.style.backgroundColor = 'red';
+  } else {
+    cell.style.backgroundColor = 'red';
+  }
+}
+
 var myEvent = new eventValues();
+
+// Uncomment and assign the start and end cells appropriately
 let start = document.getElementById('node-0-0');
 let end = document.getElementById('node-14-32');
 
-start.style.backgroundColor = 'green';
-end.style.backgroundColor = 'red';
+document.addEventListener('DOMContentLoaded', function(event) {
+  // Uncomment the following lines after assigning the start and end cells
+  start.style.backgroundColor = 'green';
+  end.style.backgroundColor = 'red';
 
-var cells = document.getElementsByClassName("row");
+  var cells = document.getElementsByClassName('inside-cell');
 
-for (let cell of cells) {
-  cell.textContent = '';
-
-  cell.addEventListener('click', function(event) {
-    myEvent.setOnClick(true);
-    myEvent.checkEvents(event);
+  document.addEventListener('mousedown', function(event) {
+    if (event.button === 0) {
+      myEvent.setOnMouseDown(true);
+    }
   });
 
-  cell.addEventListener('mouseover', function(event) {
-    myEvent.setOnMouseover(true);
+  document.addEventListener('mouseup', function(event) {
+    if (event.button === 0) {
+      myEvent.setOnMouseDown(false);
+    }
   });
 
-  cell.addEventListener('mouseout', function(event) {
-    myEvent.setOnMouseover(false);
-  });
+  for (let cell of cells) {
+    cell.textContent = '';
 
-  cell.addEventListener('dblclick', function(event) {
-    myEvent.setOnDblclick(true);
-    myEvent.checkEvents(event);
-  });
-}
+    cell.addEventListener('click', function(event) {
+      myEvent.setOnClick(true);
+      if (myEvent.getOnClick()) {
+        myEvent.eventsCheck('click', 'start');
+      } else {
+        myEvent.eventsCheck('click', 'end');
+      }
+    });
+
+    cell.addEventListener('dblclick', function(event) {
+      myEvent.setOnDblclick(true);
+      myEvent.eventsCheck('dblclick', 'dblclick');
+    });
+
+    cell.addEventListener('mouseover', function(event) {
+      myEvent.setOnMouseover(true);
+      if (myEvent.getOnMouseDown()) {
+        cell.style.backgroundColor = 'black';
+      }
+    });
+  }
+});
