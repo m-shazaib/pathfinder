@@ -1,128 +1,91 @@
-class eventValues {
-  constructor() {
-    this.onClick = false;
-    this.onMouseover = false;
-    this.onDblclick = false;
-    this.onMouseDown = false;
+class Cell {
+  constructor(id) {
+    this.id = id;
+    this.color = 'white';
   }
 
-  setOnClick(state) {
-    this.onClick = state;
+  setColor(color) {
+    this.color = color;
+    this.updateStyle();
   }
 
-  setOnMouseover(state) {
-    this.onMouseover = state;
+  setId(id) {
+    this.id = id;
   }
 
-  setOnMouseDown(state) {
-    this.onMouseDown = state;
+  updateStyle() {
+    const cellElement = document.getElementById(this.id);
+    cellElement.style.backgroundColor = this.color;
+    cellElement.style.transition = '.3s';
+  }
+}
+
+class WallCell extends Cell {
+  constructor(id) {
+    super(id);
   }
 
-  setOnDblclick(state) {
-    this.onDblclick = state;
-  }
-
-  getOnClick() {
-    return this.onClick;
-  }
-
-  getOnMouseover() {
-    return this.onMouseover;
-  }
-
-  getOnMouseDown() {
-    return this.onMouseDown;
-  }
-
-  getOnDblclick() {
-    return this.onDblclick;
-  }
-
-  eventsCheck(events, s_e) {
-    if (events === 'click') {
-      if (s_e === 'start') {
-        startCellColor(event.target);
-        this.setOnClick(false);
-      } else if (s_e === 'end') {
-        endCellColor(event.target);
-        this.setOnDblclick(false);
-      }
-    } else if (events === 'dblclick') {
-      resetCellColor(event.target);
-    } else if (events === 'mouseover') {
-      walls(event.target);
-      this.setOnMouseover(false);
+  setColor(color) {
+    if (color === 'black') {
+      super.setColor(color);
+    } else {
+      // Prevent changing the color of wall cells to other colors
+      return;
     }
   }
 }
 
-function resetCellColor(cell) {
-  cell.style.backgroundColor = 'white';
-  cell.style.transition = '.3s';
-}
-
-function startCellColor(cell) {
-  if (cell.id == 'node-0-0') {
-    cell.style.backgroundColor = 'green';
-  } else {
-    cell.style.backgroundColor = 'green';
-  }
-}
-
-function endCellColor(cell) {
-  if (cell.id == 'node-14-32') {
-    cell.style.backgroundColor = 'red';
-  } else {
-    cell.style.backgroundColor = 'red';
-  }
-}
-
-var myEvent = new eventValues();
-
-// Uncomment and assign the start and end cells appropriately
-let start = document.getElementById('node-0-0');
-let end = document.getElementById('node-14-32');
-
 document.addEventListener('DOMContentLoaded', function(event) {
-  // Uncomment the following lines after assigning the start and end cells
-  start.style.backgroundColor = 'green';
-  end.style.backgroundColor = 'red';
-
-  var cells = document.getElementsByClassName('inside-cell');
+  const cells = document.getElementsByClassName('inside-cell');
+  let startCell = new Cell('node-0-0');
+  let endCell = new Cell('node-14-32');
+  let isLeftMouseDown = false;
+  let isMiddleMouseDown = false;
 
   document.addEventListener('mousedown', function(event) {
     if (event.button === 0) {
-      myEvent.setOnMouseDown(true);
+      isLeftMouseDown = true;
+    } else if (event.button === 1) {
+      isMiddleMouseDown = true;
     }
   });
 
   document.addEventListener('mouseup', function(event) {
     if (event.button === 0) {
-      myEvent.setOnMouseDown(false);
+      isLeftMouseDown = false;
+    } else if (event.button === 1) {
+      isMiddleMouseDown = false;
     }
   });
 
   for (let cell of cells) {
     cell.textContent = '';
 
+    // startcell
     cell.addEventListener('click', function(event) {
-      myEvent.setOnClick(true);
-      if (myEvent.getOnClick()) {
-        myEvent.eventsCheck('click', 'start');
-      } else {
-        myEvent.eventsCheck('click', 'end');
-      }
+      startCell.setColor('white');
+      const clickedCell = new Cell(cell.id);
+      clickedCell.setColor('red');
+      startCell.setId(clickedCell.id);
     });
 
+    // endcell
     cell.addEventListener('dblclick', function(event) {
-      myEvent.setOnDblclick(true);
-      myEvent.eventsCheck('dblclick', 'dblclick');
+      endCell.setColor('white');
+      const clickedCell = new Cell(cell.id);
+      clickedCell.setColor('green');
+      endCell.setId(clickedCell.id);
     });
 
+
+    // wallcell
     cell.addEventListener('mouseover', function(event) {
-      myEvent.setOnMouseover(true);
-      if (myEvent.getOnMouseDown()) {
-        cell.style.backgroundColor = 'black';
+      if (isLeftMouseDown) {
+        const hoveredCell = new WallCell(cell.id);
+        hoveredCell.setColor('black');
+      } else if (isMiddleMouseDown) {
+        const hoveredCell = new Cell(cell.id);
+        hoveredCell.setColor('white');
       }
     });
   }
