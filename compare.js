@@ -1,4 +1,3 @@
-  
 class eventValues {
     constructor() {
       this.onClick = false;
@@ -57,9 +56,9 @@ class eventValues {
     cell.style.backgroundColor = 'white';
     cell.style.transition = '.s';
   }
-  
+
   var myEvent = new eventValues();
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     var elements = document.getElementsByClassName("inside-cell");
   
@@ -82,3 +81,4 @@ class eventValues {
       });
     }
   });
+  

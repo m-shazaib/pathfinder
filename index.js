@@ -19,7 +19,6 @@ class Cell {
     cellElement.style.transition = '.3s';
   }
 }
-
 class WallCell extends Cell {
   constructor(id) {
     super(id);
