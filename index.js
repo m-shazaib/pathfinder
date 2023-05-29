@@ -39,8 +39,16 @@ document.addEventListener('DOMContentLoaded', function(event) {
   const cells = document.getElementsByClassName('inside-cell');
   let startCell = new Cell('node-0-0');
   let endCell = new Cell('node-14-32');
+
+  startCell.setColor('red');
+  endCell.setColor('green');  
+
   let isLeftMouseDown = false;
   let isMiddleMouseDown = false;
+  let isCtrlDown = false;
+
+
+  //Mouse events
 
   document.addEventListener('mousedown', function(event) {
     if (event.button === 0) {
@@ -58,23 +66,41 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
   });
 
+  //Keyboard events
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Control') {
+      isCtrlDown = true;
+    }
+  }); 
+  
+  document.addEventListener('keyup', function(event) {
+    if (event.key === 'Control') {
+      isCtrlDown = false;
+    }
+  });
+
   for (let cell of cells) {
     cell.textContent = '';
 
     // startcell
     cell.addEventListener('click', function(event) {
+      if(isCtrlDown) {
+        endCell.setColor('white');
+        const clickedCell = new Cell(cell.id);
+        clickedCell.setColor('green');
+        endCell.setId(clickedCell.id);
+      }else{
       startCell.setColor('white');
       const clickedCell = new Cell(cell.id);
       clickedCell.setColor('red');
       startCell.setId(clickedCell.id);
+      }
     });
 
     // endcell
     cell.addEventListener('dblclick', function(event) {
-      endCell.setColor('white');
       const clickedCell = new Cell(cell.id);
-      clickedCell.setColor('green');
-      endCell.setId(clickedCell.id);
+      clickedCell.setColor('white');
     });
 
 
