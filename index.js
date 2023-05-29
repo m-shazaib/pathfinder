@@ -19,6 +19,7 @@ class Cell {
     cellElement.style.transition = '.3s';
   }
 }
+
 class WallCell extends Cell {
   constructor(id) {
     super(id);
@@ -34,8 +35,12 @@ class WallCell extends Cell {
   }
 }
 
+const cells = document.getElementsByClassName('inside-cell');
+
+
+
 document.addEventListener('DOMContentLoaded', function(event) {
-  const cells = document.getElementsByClassName('inside-cell');
+
   let startCell = new Cell('node-0-0');
   let endCell = new Cell('node-14-32');
 
@@ -89,10 +94,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
         clickedCell.setColor('green');
         endCell.setId(clickedCell.id);
       }else{
-      startCell.setColor('white');
-      const clickedCell = new Cell(cell.id);
-      clickedCell.setColor('red');
-      startCell.setId(clickedCell.id);
+        startCell.setColor('white');
+        const clickedCell = new Cell(cell.id);
+        clickedCell.setColor('red');
+        startCell.setId(clickedCell.id);
       }
     });
 
@@ -115,3 +120,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     });
   }
 });
+
+
+module.export=cells;
