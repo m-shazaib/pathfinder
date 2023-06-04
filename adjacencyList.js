@@ -1,6 +1,10 @@
+// This file contains the code for creating the adjacency list of the grid. The adjacency list is a data structure that represents the graph of the grid. It is used to get the 
+// neighbors of a cell. The neighbors of a cell are the cells that are adjacent to it. 
+
+
 export default function createAdjacencyList(grid) {
 
-    const adjacencyList = {};
+    const adjacencyList = {};  //an object that will contain the adjacency list of the grid
 
     for (let cell of grid) {
         
@@ -8,9 +12,9 @@ export default function createAdjacencyList(grid) {
 
         const[row,coloumn]=cellId.split('-').slice(1).map(Number);
         
-        adjacencyList[cellId] = [];
+        adjacencyList[cellId] = []; //initializing the adjacency list of the cell for each cell id
 
-        const neighbors = [
+        const neighbors = [             //storing the neighbors of cell in an array
 
             `node-${row}-${coloumn-1}`,//left
             `node-${row}-${coloumn+1}`,//right
@@ -18,16 +22,17 @@ export default function createAdjacencyList(grid) {
             `node-${row+1}-${coloumn}`,//bottom    
         ];
 
-        for(let neighbor of neighbors){
+        for(let neighbor of neighbors){ //making sure the cell is present inside the grid
             if(document.getElementById(neighbor)){
                 adjacencyList[cellId].push(neighbor);
             }
            }
 
-        //    console.log(adjacencyList);
-           return adjacencyList;
+          
 
 
     }
+    
+    return adjacencyList;
 }
          
