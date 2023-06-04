@@ -20,106 +20,90 @@ class Cell {
   }
 }
 
-class WallCell extends Cell {
-  constructor(id) {
-    super(id);
-  }
+const cells = document.getElementsByClassName('inside-cell');
+const unvisitedNodes = [];
+const walls = [];
 
-  setColor(color) {
-    if (color === 'black') {
-      super.setColor(color);
-    } else {
-      // Prevent changing the color of wall cells to other colors
-      return;
+function handleMouseDown(event) {
+  if (event.button === 0) {
+    isLeftMouseDown = true;
+  } else if (event.button === 1) {
+    isMiddleMouseDown = true;
+  }
+}
+
+function handleMouseUp(event) {
+  if (event.button === 0) {
+    isLeftMouseDown = false;
+  } else if (event.button === 1) {
+    isMiddleMouseDown = false;
+  }
+}
+
+function handleKeyDown(event) {
+  if (event.key === 'Control') {
+    isCtrlDown = true;
+  }
+}
+
+function handleKeyUp(event) {
+  if (event.key === 'Control') {
+    isCtrlDown = false;
+  }
+}
+
+function handleClick(cell) {
+  if (isCtrlDown) {
+    endCell.setColor('white');
+    const clickedCell = new Cell(cell.id);
+    clickedCell.setColor('green');
+    endCell.setId(clickedCell.id);
+  } else {
+    startCell.setColor('white');
+    const clickedCell = new Cell(cell.id);
+    clickedCell.setColor('red');
+    startCell.setId(clickedCell.id);
+  }
+}
+
+function handleDoubleClick(cell) {
+  const clickedCell = new Cell(cell.id);
+  clickedCell.setColor('white');
+}
+
+function handleMouseOver(cell) {
+  if (isLeftMouseDown) {
+    const hoveredCell = new WallCell(cell.id);
+    walls.push(hoveredCell);
+    hoveredCell.setColor('black');
+  } else if (isMiddleMouseDown) {
+    const hoveredCell = new Cell(cell.id);
+    hoveredCell.setColor('white');
+    // remove the cell from walls array
+    const index = walls.findIndex(walls => walls.id === hoveredCell.id);
+    if (index !== -1) {
+      walls.splice(index, 1);
     }
   }
 }
 
-const cells = document.getElementsByClassName('inside-cell');
-
-
-
-document.addEventListener('DOMContentLoaded', function(event) {
-
+document.addEventListener('DOMContentLoaded', function() {
   let startCell = new Cell('node-0-0');
   let endCell = new Cell('node-14-32');
 
   startCell.setColor('red');
-  endCell.setColor('green');  
-
-  let isLeftMouseDown = false;
-  let isMiddleMouseDown = false;
-  let isCtrlDown = false;
-
-
-  //Mouse events
-
-  document.addEventListener('mousedown', function(event) {
-    if (event.button === 0) {
-      isLeftMouseDown = true;
-    } else if (event.button === 1) {
-      isMiddleMouseDown = true;
-    }
-  });
-
-  document.addEventListener('mouseup', function(event) {
-    if (event.button === 0) {
-      isLeftMouseDown = false;
-    } else if (event.button === 1) {
-      isMiddleMouseDown = false;
-    }
-  });
-
-  //Keyboard events
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Control') {
-      isCtrlDown = true;
-    }
-  }); 
-  
-  document.addEventListener('keyup', function(event) {
-    if (event.key === 'Control') {
-      isCtrlDown = false;
-    }
-  });
+  endCell.setColor('green');
 
   for (let cell of cells) {
     cell.textContent = '';
+    unvisitedNodes.push(cell.id);
 
-    // startcell
-    cell.addEventListener('click', function(event) {
-      if(isCtrlDown) {
-        endCell.setColor('white');
-        const clickedCell = new Cell(cell.id);
-        clickedCell.setColor('green');
-        endCell.setId(clickedCell.id);
-      }else{
-        startCell.setColor('white');
-        const clickedCell = new Cell(cell.id);
-        clickedCell.setColor('red');
-        startCell.setId(clickedCell.id);
-      }
-    });
-
-    // endcell
-    cell.addEventListener('dblclick', function(event) {
-      const clickedCell = new Cell(cell.id);
-      clickedCell.setColor('white');
-    });
-
-
-    // wallcell
-    cell.addEventListener('mouseover', function(event) {
-      if (isLeftMouseDown) {
-        const hoveredCell = new WallCell(cell.id);
-        hoveredCell.setColor('black');
-      } else if (isMiddleMouseDown) {
-        const hoveredCell = new Cell(cell.id);
-        hoveredCell.setColor('white');
-      }
-    });
+    cell.addEventListener('mousedown', handleMouseDown);
+    cell.addEventListener('mouseup', handleMouseUp);
+    cell.addEventListener('click', handleClick);
+    cell.addEventListener('dblclick', handleDoubleClick);
+    cell.addEventListener('mouseover', handleMouseOver);
   }
 });
 
-
-module.export=cells;
+export default Cell;
