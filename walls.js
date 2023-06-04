@@ -1,4 +1,5 @@
 import Cell,{walls,cells} from './index.js';
+import createAdjacencyList from './adjacencyList.js';
 
 
 class WallCell extends Cell {
@@ -17,14 +18,15 @@ class WallCell extends Cell {
   }
 
   
- 
   
   let isLeftMouseDown = false;
   let isMiddleMouseDown = false;
   
   document.addEventListener('DOMContentLoaded', function() {
-    
-   for(let cell of cells){
+      
+      console.log(createAdjacencyList(cells));
+      
+      for(let cell of cells){
     document.addEventListener('mousedown', function(event) {
         if (event.button === 0) {
           isLeftMouseDown = true;
@@ -54,12 +56,16 @@ class WallCell extends Cell {
           // remove the cell from walls array
           const index=walls.findIndex(walls=>walls.id===cell.id)
           // the code goes over here,
+          if(index!==-1){
+            walls.splice(index,1);
+          }
           // console.log(walls[0]);
 
         }
     
       });
     }
+
 
     });
 
