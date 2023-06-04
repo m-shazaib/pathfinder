@@ -4,7 +4,7 @@
 
 export default function createAdjacencyList(grid) {
 
-    const adjacencyList = {};  //an object that will contain the adjacency list of the grid
+    const adjacencyList = {};  //an  Object that will contain the adjacency list of the grid
 
     for (let cell of grid) {
         
@@ -32,7 +32,7 @@ export default function createAdjacencyList(grid) {
 
 
     }
-    
+
     return adjacencyList;
 }
          
