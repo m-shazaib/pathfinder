@@ -20,89 +20,60 @@ class Cell {
   }
 }
 
-const cells = document.getElementsByClassName('inside-cell');
-const unvisitedNodes = [];
-const walls = [];
+export let cells = document.getElementsByClassName('inside-cell');
+export const unvisitedNodes = [];
+export const walls= [];
 
-function handleMouseDown(event) {
-  if (event.button === 0) {
-    isLeftMouseDown = true;
-  } else if (event.button === 1) {
-    isMiddleMouseDown = true;
-  }
-}
-
-function handleMouseUp(event) {
-  if (event.button === 0) {
-    isLeftMouseDown = false;
-  } else if (event.button === 1) {
-    isMiddleMouseDown = false;
-  }
-}
-
-function handleKeyDown(event) {
-  if (event.key === 'Control') {
-    isCtrlDown = true;
-  }
-}
-
-function handleKeyUp(event) {
-  if (event.key === 'Control') {
-    isCtrlDown = false;
-  }
-}
-
-function handleClick(cell) {
-  if (isCtrlDown) {
-    endCell.setColor('white');
-    const clickedCell = new Cell(cell.id);
-    clickedCell.setColor('green');
-    endCell.setId(clickedCell.id);
-  } else {
-    startCell.setColor('white');
-    const clickedCell = new Cell(cell.id);
-    clickedCell.setColor('red');
-    startCell.setId(clickedCell.id);
-  }
-}
-
-function handleDoubleClick(cell) {
-  const clickedCell = new Cell(cell.id);
-  clickedCell.setColor('white');
-}
-
-function handleMouseOver(cell) {
-  if (isLeftMouseDown) {
-    const hoveredCell = new WallCell(cell.id);
-    walls.push(hoveredCell);
-    hoveredCell.setColor('black');
-  } else if (isMiddleMouseDown) {
-    const hoveredCell = new Cell(cell.id);
-    hoveredCell.setColor('white');
-    // remove the cell from walls array
-    const index = walls.findIndex(walls => walls.id === hoveredCell.id);
-    if (index !== -1) {
-      walls.splice(index, 1);
-    }
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(event) {
   let startCell = new Cell('node-0-0');
   let endCell = new Cell('node-14-32');
 
   startCell.setColor('red');
   endCell.setColor('green');
 
+ 
+  let isCtrlDown = false;
+
+  // Keyboard events
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Control') {
+      isCtrlDown = true;
+    }
+  });
+
+  document.addEventListener('keyup', function(event) {
+    if (event.key === 'Control') {
+      isCtrlDown = false;
+    }
+  });
+
   for (let cell of cells) {
     cell.textContent = '';
     unvisitedNodes.push(cell.id);
 
-    cell.addEventListener('mousedown', handleMouseDown);
-    cell.addEventListener('mouseup', handleMouseUp);
-    cell.addEventListener('click', handleClick);
-    cell.addEventListener('dblclick', handleDoubleClick);
-    cell.addEventListener('mouseover', handleMouseOver);
+    // Start cell
+    cell.addEventListener('click', function(event) {
+      if (isCtrlDown) {
+        endCell.setColor('white');
+        const clickedCell = new Cell(cell.id);
+        clickedCell.setColor('green');
+        endCell.setId(clickedCell.id);
+      } else {
+        startCell.setColor('white');
+        const clickedCell = new Cell(cell.id);
+        clickedCell.setColor('red');
+        startCell.setId(clickedCell.id);
+      }
+    });
+
+    // End cell
+    cell.addEventListener('dblclick', function(event) {
+      const clickedCell = new Cell(cell.id);
+      clickedCell.setColor('white');
+    });
+
+   
+   
   }
 });
 
