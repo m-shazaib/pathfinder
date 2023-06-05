@@ -1,13 +1,18 @@
 import  {Cell, startCell, endCell } from './cell.js';
+import createAdjacencyList from './adjacencyList.js';
+
 
 export let cells = document.getElementsByClassName('inside-cell');
 export const unvisitedNodes = [];
 export const walls= [];
+let grid = createAdjacencyList(cells);
 
 document.addEventListener('DOMContentLoaded', function(event) {
 
   startCell.setColor('red');
   endCell.setColor('green');
+
+ 
 
  
   let isCtrlDown = false;
@@ -42,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
         clickedCell.setColor('red');
         startCell.setId(clickedCell.id);
       }
+
+      
     });
 
     // End cell
