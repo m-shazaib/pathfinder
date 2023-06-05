@@ -1,6 +1,5 @@
 import  { Cell } from './cell.js';
 import { cells,walls } from './index.js';
-import createAdjacencyList from './adjacencyList.js';
 
 class WallCell extends Cell {
   constructor(id) {
