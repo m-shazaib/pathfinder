@@ -1,4 +1,5 @@
-import Cell, { walls, cells } from './index.js';
+import  { Cell } from './cell.js';
+import { cells,walls } from './index.js';
 import createAdjacencyList from './adjacencyList.js';
 
 class WallCell extends Cell {
@@ -19,7 +20,6 @@ class WallCell extends Cell {
 
 let isLeftMouseDown = false;
 let isMiddleMouseDown = false;
-let nodes=createAdjacencyList(cells);
 
 document.addEventListener('DOMContentLoaded', function() {
   for (let cell of cells) {
