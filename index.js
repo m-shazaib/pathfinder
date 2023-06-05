@@ -1,32 +1,10 @@
-class Cell {
-  constructor(id) {
-    this.id = id;
-    this.color = 'white';
-  }
-
-  setColor(color) {
-    this.color = color;
-    this.updateStyle();
-  }
-
-  setId(id) {
-    this.id = id;
-  }
-
-  updateStyle() {
-    const cellElement = document.getElementById(this.id);
-    cellElement.style.backgroundColor = this.color;
-    cellElement.style.transition = '.3s';
-  }
-}
+import  {Cell, startCell, endCell } from './cell.js';
 
 export let cells = document.getElementsByClassName('inside-cell');
 export const unvisitedNodes = [];
 export const walls= [];
 
 document.addEventListener('DOMContentLoaded', function(event) {
-  let startCell = new Cell('node-0-0');
-  let endCell = new Cell('node-14-32');
 
   startCell.setColor('red');
   endCell.setColor('green');
@@ -77,4 +55,4 @@ document.addEventListener('DOMContentLoaded', function(event) {
   }
 });
 
-export default Cell;
+
