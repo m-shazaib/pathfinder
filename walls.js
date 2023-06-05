@@ -15,7 +15,7 @@ class WallCell extends Cell {
     }
   }
 }
-//
+
 
 let isLeftMouseDown = false;
 let isMiddleMouseDown = false;
