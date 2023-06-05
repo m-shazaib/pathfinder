@@ -10,7 +10,10 @@ let grid = createAdjacencyList(cells);
 document.addEventListener('DOMContentLoaded', function(event) {
 
   startCell.setColor('red');
+  grid[startCell.id].distance = 0;
   endCell.setColor('green');
+
+  
 
  
 
@@ -34,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     cell.textContent = '';
     unvisitedNodes.push(cell.id);
 
+    
+
     // Start cell
     cell.addEventListener('click', function(event) {
       if (isCtrlDown) {
@@ -43,15 +48,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
         endCell.setId(clickedCell.id);
       } else {
         startCell.setColor('white');
+        grid[startCell.id].distance =Infinity; 
         const clickedCell = new Cell(cell.id);
         clickedCell.setColor('red');
         startCell.setId(clickedCell.id);
+        grid[startCell.id].distance = 0;
       }
 
       
     });
 
-    // End cell
+    // reset color
     cell.addEventListener('dblclick', function(event) {
       const clickedCell = new Cell(cell.id);
       clickedCell.setColor('white');
