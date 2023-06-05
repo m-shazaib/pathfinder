@@ -12,7 +12,7 @@ export default function createAdjacencyList(grid) {
 
         const[row,coloumn]=cellId.split('-').slice(1).map(Number);
         
-        adjacencyList[cellId] = []; //initializing the adjacency list of the cell for each cell id
+        adjacencyList[cellId] = {neighbors:[],distance:Infinity}; //initializing the adjacency list of the cell for each cell id and setting distance to Infinity
 
         const neighbors = [             //storing the neighbors of cell in an array
 
@@ -24,7 +24,7 @@ export default function createAdjacencyList(grid) {
 
         for(let neighbor of neighbors){ //making sure the cell is present inside the grid
             if(document.getElementById(neighbor)){
-                adjacencyList[cellId].push(neighbor);
+                adjacencyList[cellId].neighbors.push(neighbor);
             }
            }
 
