@@ -1,15 +1,22 @@
-export function Dijkstra(grid, startCell, endCell) {
-const visitedNodesInOrder = [];
+export function Dijkstra(graph,cells,start,end,walls){
 
-visitedNodesInOrder.push(startCell);
-    
-startCell.distance=0;
+    let visitedNodesInOrder = [];
+    let unvisitedNodes =[...cells];
+    let currentNode = start;
 
-for(let node of grid){
-    
-    node.distance=0;
-    node.previous=null;
+    while(unvisitedNodes.length>0){
+        
+        let neighbors=graph[currentNode.id].neighbors;
+
+        for(let neighbor of neighbors){
+            if(!walls.includes(neighbor)){
+                let neighborNode = new Cell(neighbor);
+                neighborNode.setColor('yellow');
+                visitedNodesInOrder.push(neighborNode);
+                console.log(visitedNodesInOrder);
+            }
+        }
 }
 
-
 }
+  

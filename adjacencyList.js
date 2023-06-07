@@ -2,7 +2,7 @@
 // neighbors of a cell. The neighbors of a cell are the cells that are adjacent to it. 
 
 
-export default function createAdjacencyList(grid) {
+export default function createAdjacencyList(grid,startCell) {
 
     const adjacencyList = {};  //an  Object that will contain the adjacency list of the grid
 
@@ -30,9 +30,11 @@ export default function createAdjacencyList(grid) {
 
           
 
-
     }
-
     return adjacencyList;
+
 }
+
+
+
          
