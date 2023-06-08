@@ -2,7 +2,7 @@
 // neighbors of a cell. The neighbors of a cell are the cells that are adjacent to it. 
 
 
-export default function createAdjacencyList(grid,startCell) {
+export  function createAdjacencyList(grid,startCell) {
 
     const adjacencyList = {};  //an  Object that will contain the adjacency list of the grid
 
@@ -12,7 +12,7 @@ export default function createAdjacencyList(grid,startCell) {
 
         const[row,coloumn]=cellId.split('-').slice(1).map(Number);
         
-        adjacencyList[cellId] = {neighbors:[],distance:Infinity}; //initializing the adjacency list of the cell for each cell id and setting distance to Infinity
+        adjacencyList[cellId] = {neighbors:[]}; //initializing the adjacency list of the cell for each cell id and setting distance to Infinity
 
         const neighbors = [             //storing the neighbors of cell in an array
 

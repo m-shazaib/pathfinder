@@ -20,5 +20,7 @@ export class Cell {
     }
   }
 
-  export var startCell = new Cell('node-0-0');
-  export var endCell = new Cell('node-14-32');
+
+
+
+  

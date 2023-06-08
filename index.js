@@ -1,17 +1,22 @@
-import { Cell, startCell, endCell } from './cell.js';
-import createAdjacencyList from './adjacencyList.js';
-import { Dijkstra } from './algorithms.js'; // Assuming you have a separate file for the Dijkstra implementation
+import { Cell } from './cell.js';
+import { Wall } from './walls.js';
+import { createAdjacencyList } from './adjacencyList.js';
+import { Dijkstra } from './algorithms.js';
 
 export let cells = document.getElementsByClassName('inside-cell');
 export const walls = [];
-let grid = createAdjacencyList(cells, startCell); // Pass the startCell as an argument to createAdjacencyList
+var startCell = new Cell('node-0-0');
+var endCell = new Cell('node-14-32');
+let grid = createAdjacencyList(cells, startCell);
 
 document.addEventListener('DOMContentLoaded', function(event) {
   startCell.setColor('red');
-  grid[startCell.id].distance = 0;
   endCell.setColor('green');
 
+  //Event control variables
   let isCtrlDown = false;
+  let isLeftMouseDown = false;
+  let isMiddleMouseDown = false;
 
   // Keyboard events
   document.addEventListener('keydown', function(event) {
@@ -29,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
   for (let cell of cells) {
     cell.textContent = '';
 
-    // Start cell
+    // Start cell & end cell
     cell.addEventListener('click', function(event) {
       if (isCtrlDown) {
         endCell.setColor('white');
@@ -38,23 +43,50 @@ document.addEventListener('DOMContentLoaded', function(event) {
         endCell.setId(clickedCell.id);
       } else {
         startCell.setColor('white');
-        grid[startCell.id].distance = Infinity;
+
         const clickedCell = new Cell(cell.id);
         clickedCell.setColor('red');
         startCell.setId(clickedCell.id);
-        grid[startCell.id].distance = 0;
-        
       }
     });
 
-    // reset color
+    // Wall cell
+    document.addEventListener('mousedown', function(event) {
+      if (event.button === 0) {
+        isLeftMouseDown = true;
+      } else if (event.button === 1) {
+        isMiddleMouseDown = true;
+      }
+    });
+
+    document.addEventListener('mouseup', function(event) {
+      if (event.button === 0) {
+        isLeftMouseDown = false;
+      } else if (event.button === 1) {
+        isMiddleMouseDown = false;
+      }
+    });
+
+    cell.addEventListener('mouseover', function(event) {
+      if (isLeftMouseDown) {
+        const hoveredCell = new Wall(cell.id);
+        walls.push(hoveredCell);
+        hoveredCell.setColor('black');
+      } else if (isMiddleMouseDown) {
+        const hoveredCell = new Cell(cell.id);
+        hoveredCell.setColor('white');
+        // remove the cell from walls array
+        const index = walls.findIndex((wall) => wall.id === cell.id);
+        if (index !== -1) {
+          walls.splice(index, 1);
+        }
+      }
+    });
+
+    // Reset color
     cell.addEventListener('dblclick', function(event) {
       const clickedCell = new Cell(cell.id);
       clickedCell.setColor('white');
     });
   }
-
-  // const visitedNodesInOrder = Dijkstra(grid, cells, startCell, endCell, walls);
-  // console.log(visitedNodesInOrder);
-  // Call Dijkstra function here
 });
