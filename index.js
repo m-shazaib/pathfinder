@@ -1,31 +1,31 @@
 import { Cell } from './cell.js';
 import { Wall } from './walls.js';
 import { createAdjacencyList } from './adjacencyList.js';
-import { Dijkstra } from './algorithms.js';
+import { DijkstraAlgorithm } from './algorithms.js';
 
 export let cells = document.getElementsByClassName('inside-cell');
 export const walls = [];
 var startCell = new Cell('node-0-0');
 var endCell = new Cell('node-14-32');
-let grid = createAdjacencyList(cells, startCell);
+var grid = createAdjacencyList(cells, startCell);
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function (event) {
   startCell.setColor('red');
   endCell.setColor('green');
 
-  //Event control variables
+  // Event control variables
   let isCtrlDown = false;
   let isLeftMouseDown = false;
   let isMiddleMouseDown = false;
 
   // Keyboard events
-  document.addEventListener('keydown', function(event) {
+  document.addEventListener('keydown', function (event) {
     if (event.key === 'Control') {
       isCtrlDown = true;
     }
   });
 
-  document.addEventListener('keyup', function(event) {
+  document.addEventListener('keyup', function (event) {
     if (event.key === 'Control') {
       isCtrlDown = false;
     }
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     cell.textContent = '';
 
     // Start cell & end cell
-    cell.addEventListener('click', function(event) {
+    cell.addEventListener('click', function (event) {
       if (isCtrlDown) {
         endCell.setColor('white');
         const clickedCell = new Cell(cell.id);
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     });
 
     // Wall cell
-    document.addEventListener('mousedown', function(event) {
+    document.addEventListener('mousedown', function (event) {
       if (event.button === 0) {
         isLeftMouseDown = true;
       } else if (event.button === 1) {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
       }
     });
 
-    document.addEventListener('mouseup', function(event) {
+    document.addEventListener('mouseup', function (event) {
       if (event.button === 0) {
         isLeftMouseDown = false;
       } else if (event.button === 1) {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
       }
     });
 
-    cell.addEventListener('mouseover', function(event) {
+    cell.addEventListener('mouseover', function (event) {
       if (isLeftMouseDown) {
         const hoveredCell = new Wall(cell.id);
         walls.push(hoveredCell);
@@ -84,9 +84,37 @@ document.addEventListener('DOMContentLoaded', function(event) {
     });
 
     // Reset color
-    cell.addEventListener('dblclick', function(event) {
+    cell.addEventListener('dblclick', function (  ) {
       const clickedCell = new Cell(cell.id);
       clickedCell.setColor('white');
     });
   }
+
+  
+
+
+
+function runDijkstra(){
+  const dijkstra = new DijkstraAlgorithm(grid, cells, startCell, endCell, walls);
+  dijkstra.calculateShortestPath();
+}
+
+  
+  function resetGrid(){
+    for(let cell of cells){
+      if(cell.id === startCell.id || cell.id === endCell.id){
+        continue;
+      }
+      const cellElement = document.getElementById(cell.id);
+      cellElement.style.backgroundColor = 'white';
+      cellElement.style.transition = '.3s';
+    }
+  }
+  
+  const dijkstraButton = document.getElementsByTagName('button')[0];
+  const resetButton = document.getElementsByTagName('button')[1];
+  dijkstraButton.addEventListener('click', runDijkstra);
+  resetButton.addEventListener('click',resetGrid);
+
+  
 });
