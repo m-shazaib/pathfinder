@@ -31,17 +31,7 @@ export class DijkstraAlgorithm {
 
  
 
-  pathColoring(nodes,color,delay,time) {
-     // Delay in milliseconds between each coloring operation
-    for (let i = 0; i < nodes.length; i++) {
-      setTimeout(() => {  
-        if(nodes[i]!==this.start.id && nodes[i]!==this.end.id)  
-            document.getElementById(nodes[i]).style.backgroundColor = color;
-            document.getElementById(nodes[i]).style.transition = time;
-        
-      }, delay * i);
-    }
-  }
+ 
 
 
 
@@ -67,40 +57,56 @@ export class DijkstraAlgorithm {
 
     }
    
-
-  calculateShortestPath() {
-    let unvisitedNodes = this.initialize();
-
-    while (unvisitedNodes.length > 0) {
-      let minDistanceNode = this.minimumDistance(unvisitedNodes);
-
-      unvisitedNodes = unvisitedNodes.filter((node) => node.id !== minDistanceNode.id);
-
-      if (minDistanceNode.id === this.end.id) break;
-
-      let neighbors = this.graph[minDistanceNode.id].neighbors;
-
-      for (let neighbor of neighbors) {
-        let tentativeDistance = this.distances[minDistanceNode.id] + 1;
-
-        if (tentativeDistance < this.distances[neighbor]) {
-          this.distances[neighbor] = tentativeDistance;
-          this.previous[neighbor] = minDistanceNode.id;
-          this.visitedNodesInOrder.push(minDistanceNode.id);
+    calculateShortestPath() {
+      let unvisitedNodes = this.initialize();
+    
+      while (unvisitedNodes.length > 0) {
+        let minDistanceNode = this.minimumDistance(unvisitedNodes);
+    
+        unvisitedNodes = unvisitedNodes.filter((node) => node.id !== minDistanceNode.id);
+    
+        if (minDistanceNode.id === this.end.id) break;
+    
+        let neighbors = this.graph[minDistanceNode.id].neighbors;
+    
+        for (let neighbor of neighbors) {
+          let tentativeDistance = this.distances[minDistanceNode.id] + 1;
+    
+          if (tentativeDistance < this.distances[neighbor]) {
+            this.distances[neighbor] = tentativeDistance;
+            this.previous[neighbor] = minDistanceNode.id;
+            this.visitedNodesInOrder.push(minDistanceNode.id);
+          }
         }
       }
-      
+    
+      let visits = this.visitedNodesInOrder;
+      console.log('hey ' + visits);
+      this.pathColoring(visits, 'rgb(0, 255, 0)', 50, '.3s', () => {
+        // This callback function is executed after visited node coloring is completed
+        let path = this.pathNodes();
+        this.pathColoring(path, 'rgb(0, 0, 255)', 200, '.6s');
+      });
     }
     
-    let visits=this.visitedNodesInOrder;
-    this.pathColoring(visits,'rgb(0, 255, 0)',50,'.3s');
-    //visited nodes coloring
-   
-    //Dijkstra coloring
-    let path = this.pathNodes(); 
-    this.pathColoring(path,'rgb(0, 0, 255)',2000,'.6s');
-   
-  }
+    pathColoring(nodes, color, delay, time, callback) {
+      // Delay in milliseconds between each coloring operation
+      for (let i = 0; i < nodes.length; i++) {
+        setTimeout(() => {
+          if (nodes[i] !== this.start.id && nodes[i] !== this.end.id)
+            document.getElementById(nodes[i]).style.backgroundColor = color;
+          document.getElementById(nodes[i]).style.transition = time;
+    
+          if (i === nodes.length -1 && callback) {
+            // Execute the callback function after the last coloring operation
+            setTimeout(callback, delay);
+          }
+        }, delay * i);
+      }
+    }
+    
+
+
 }
 
 
