@@ -93,7 +93,7 @@ export class DijkstraAlgorithm {
     }
     
     let visits=this.visitedNodesInOrder;
-    this.pathColoring(visits,'rgb(0, 255, 0)',150,'.3s');
+    this.pathColoring(visits,'rgb(0, 255, 0)',50,'.3s');
     //visited nodes coloring
    
     //Dijkstra coloring
