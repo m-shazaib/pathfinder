@@ -1,62 +1,108 @@
-export function Dijkstra(graph, cells, start, end, walls) {
-    let visitedNodesInOrder = [];
-    let unvisitedNodes = [...cells]; // Use the spread operator to create a copy of the cells array
-    let distances = {};
-    let previous = {};
-    
-    for(let walNode of walls){
-    unvisitedNodes = unvisitedNodes.filter((node) => node.id !== walNode.id);
-    }
-
-    console.log(unvisitedNodes);
-
-    // Initialize distances with Infinity for all nodes except the start node
-    for (let node of cells) {
-      distances[node.id] = node.id === start.id ? 0 : Infinity;
-      previous[node.id] = null;
-    }
-  
-    while (unvisitedNodes.length > 0) {
-      // Find the node with the minimum distance from the unvisited nodes
-      let minDistanceNode = unvisitedNodes.reduce(
-        (minNode, node) =>
-          distances[node.id] < distances[minNode.id] ? node : minNode
-      );
-  
-      // Remove the minimum distance node from the unvisited nodes list
-      unvisitedNodes = unvisitedNodes.filter((node) => node.id !== minDistanceNode.id);
-  
-      // Stop if the minimum distance node is the end node
-      if (minDistanceNode.id === end.id) break;
-  
-      // Get the neighbors of the minimum distance node from the adjacency list
-      let neighbors = graph[minDistanceNode.id].neighbors;
-  
-      for (let neighbor of neighbors) {
-        // Check if the neighbor is a wall
-        
-
-        
-        if (!walls.includes(neighbor)){
-  
-        // Calculate the tentative distance from the start node to the neighbor
-        let tentativeDistance = distances[minDistanceNode.id] + 1; // Assuming each edge has a weight of 1
-  
-        // Update the distance and previous node if the tentative distance is shorter
-        if (tentativeDistance < distances[neighbor]) {
-          distances[neighbor] = tentativeDistance;
-          previous[neighbor] = minDistanceNode.id;
-        }
-    }
-      }
-    }
-  
-    // Build the visited nodes in order list by backtracking from the end node
-    let currentNode = end.id;
-    while (currentNode !== null) {
-      visitedNodesInOrder.unshift(currentNode);
-      currentNode = previous[currentNode];
-    }
-  
-    return visitedNodesInOrder;
+export class DijkstraAlgorithm {
+  constructor(graph, cells, start, end, walls) {
+    this.graph = graph;
+    this.cells = cells;
+    this.start = start;
+    this.end = end;
+    this.walls = walls;
+    this.visitedNodesInOrder = [];
+    this.distances = {};
+    this.previous = {};   //keeps track of previous node visited
+    this.condition = false;
   }
+
+  
+  initialize() {
+    let unvisitedNodes = [...this.cells];   //spread operator to copy array
+
+
+    //removing walls from unvisited nodes
+    for (let wallNode of this.walls) {
+      unvisitedNodes = unvisitedNodes.filter((node) => node.id !== wallNode.id); //filtering makes copy of the array and removes the un needed elements
+    }
+
+    for (let node of this.cells) {
+      this.distances[node.id] = node.id === this.start.id ? 0 : Infinity; //setting distance to Infinity except for start node
+      this.previous[node.id] = null;  //setting previous to null
+    }
+
+    return unvisitedNodes;
+  }
+
+ 
+
+  pathColoring(nodes,color,delay,time) {
+     // Delay in milliseconds between each coloring operation
+    for (let i = 0; i < nodes.length; i++) {
+      setTimeout(() => {  
+        if(nodes[i]!==this.start.id && nodes[i]!==this.end.id)  
+            document.getElementById(nodes[i]).style.backgroundColor = color;
+            document.getElementById(nodes[i]).style.transition = time;
+        
+      }, delay * i);
+    }
+  }
+
+
+
+  minimumDistance(unvisitedNodes) {
+    let minDistanceNode = unvisitedNodes.reduce(
+      (minNode, node) =>
+        this.distances[node.id] < this.distances[minNode.id] ? node : minNode
+    );
+
+    return minDistanceNode;
+    }
+
+    pathNodes(){
+     
+      let path = [];
+      let current = this.end.id;
+      while (current !== this.start.id) {
+        path.unshift(current);
+        current = this.previous[current];
+      }
+      path.unshift(this.start);
+      return path;
+
+    }
+   
+
+  calculateShortestPath() {
+    let unvisitedNodes = this.initialize();
+
+    while (unvisitedNodes.length > 0) {
+      let minDistanceNode = this.minimumDistance(unvisitedNodes);
+
+      unvisitedNodes = unvisitedNodes.filter((node) => node.id !== minDistanceNode.id);
+
+      if (minDistanceNode.id === this.end.id) break;
+
+      let neighbors = this.graph[minDistanceNode.id].neighbors;
+
+      for (let neighbor of neighbors) {
+        let tentativeDistance = this.distances[minDistanceNode.id] + 1;
+
+        if (tentativeDistance < this.distances[neighbor]) {
+          this.distances[neighbor] = tentativeDistance;
+          this.previous[neighbor] = minDistanceNode.id;
+          this.visitedNodesInOrder.push(minDistanceNode.id);
+        }
+      }
+      
+    }
+    
+    let visits=this.visitedNodesInOrder;
+    this.pathColoring(visits,'rgb(0, 255, 0)',150,'.3s');
+    //visited nodes coloring
+   
+    //Dijkstra coloring
+    let path = this.pathNodes(); 
+    this.pathColoring(path,'rgb(0, 0, 255)',2000,'.6s');
+   
+  }
+}
+
+
+
+
