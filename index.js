@@ -111,6 +111,7 @@ function resetGrid(){
       cellElement.style.backgroundColor = 'white';
       cellElement.style.transition = '.3s';
     }
+    walls.length = 0;
   }
   
   const dijkstraButton = document.getElementsByTagName('button')[0];
