@@ -4,26 +4,77 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Algorithm Visualizer</title>
+    <title>DIJKSTRA VISUALIZER</title>
+    
+    <meta name="description" content="Dijkstra Algorithm Visualizer">
+    <meta name="title" content="Dijkstra Visualizer">
+    <link rel="shortcut icon" href="favicon.webp" type="image/webp+xml">
+
+
     <link rel="stylesheet" href="styles.css" >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital@1&family=PT+Serif:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+    .btn {
+      border-radius: 9999px;
+      background-color:#01161e;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      height:fit-content;
+      position:relative;
+      top:8%;
+    }
+    .btn:hover{
+      background-color:#b1c4e2;
+    }
+    .col-6{
+      background-color:#00296b; 
+      top:-30px;
+      border-radius: 9999px;
+      height: 60px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+  </style>
+    
   </head>
   <body>
     
-    <div class="container-fluid">
+    <div class="container-fluid m-0 p-0">
 
-      <a href="#" class="text-danger text-decoration-none"><h1 class="bg-dark m-0">Path Visualizer</h1></a>
-      <nav class="navbar navbar-dark bg-dark d-flex justify-content-md-around m-0" >
-        <button class="btn btn-primary ">RUN</button>
+      <nav class="navbar  d-flex justify-content-md-around m-0 row" style="background-color: #001845;font-family: 'PT Sans', sans-serif;
+font-family: 'PT Serif', serif;"  >
         
-        <button class="btn btn-primary " >RESET</button>
+        <a href="#" class="col-12  text-decoration-none h1 fw-bolder mb-5" style="color:#0582ca">DIJKSTRA VISUALIZER</a>
+       
+        <div class="col-6  d-flex justify-content-around position-relative"  >
+          
+          <button class="btn col-3 "><i class="bi bi-search"></i> VISUALIZE </button>
+          
+          <button class="btn  col-3 " ><i class="bi bi-x-octagon"></i> RESET GRID</button>
+        </div>
       
     </nav>
+
+    <span class="fw-bold text-primary" id="result"></span>
     
     
     
     
-    <table class="table mt-0">
+    <table class="table mt-0 mb-0">
       <!-- rows0 -->
       <tr  class="rows">
         <td id="node-0-0" class="inside-cell">1</td>
@@ -568,19 +619,20 @@
 
 
     
-    <div class="container-fluid bg-dark">
-      <footer class="text-body">
-        <p class="d-flex justify-content-center">
-          <p class="text-center text-info">MADE WITH LOVE</p> </span>
-        </p>
-        <span class="text-white d-flex justify-content-center">&copy; 2023
+
+
+    <div class="container-fluid m-0 p-0 bg-dark">
+      <footer class="text-body d-flex justify-content-center">
+        <p class="text-center text-info">OOP SEMESTER PROJECT MADE WITH LOVE</p> 
+        <span class="text-white text-center d-flex justify-content-center">&copy; 2023</span>
       </footer>
+      
+      
         </div>
   </div>
 
-<script src="index.js" type="module"></script>
-<!-- <script src="algorithms.js" defer type="module"></script> -->
-<!-- <script src="walls.js" defer type="module"></script> -->
+  <script src="index.js" defer type="module"></script>
+
 
     <script>
 
