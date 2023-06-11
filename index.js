@@ -10,13 +10,13 @@ var endCell = new Cell('node-14-32');
 var grid = createAdjacencyList(cells, startCell);
 
 document.addEventListener('DOMContentLoaded', function (event) {
-  startCell.setColor('red');
-  endCell.setColor('green');
+  startCell.setColor('#ef233c');
+  endCell.setColor('#59d102');
 
   // Event control variables
   let isCtrlDown = false;
   let isLeftMouseDown = false;
-  let isMiddleMouseDown = false;
+  let   isMiddleMouseDown = false;
 
   // Keyboard events
   document.addEventListener('keydown', function (event) {
@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
       if (isCtrlDown) {
         endCell.setColor('white');
         const clickedCell = new Cell(cell.id);
-        clickedCell.setColor('green');
+        clickedCell.setColor('#59d102');
         endCell.setId(clickedCell.id);
       } else {
         startCell.setColor('white');
 
         const clickedCell = new Cell(cell.id);
-        clickedCell.setColor('red');
+        clickedCell.setColor('#ef233c');
         startCell.setId(clickedCell.id);
       }
     });
@@ -89,18 +89,20 @@ document.addEventListener('DOMContentLoaded', function (event) {
       clickedCell.setColor('white');
     });
   }
-
   
-
-
-
+  // Dijkstra's algorithm
 function runDijkstra(){
   const dijkstra = new DijkstraAlgorithm(grid, cells, startCell, endCell, walls);
   dijkstra.calculateShortestPath();
+
+  const result = document.getElementById("result"); // Assuming "result" is the ID of the target element
+  const pathElement = dijkstra.getPath(); // dijkstra.getPath() returns the path length
+  
+  result.innerHTML ='The distance to move to the endpoint is '+ pathElement +' cells';
+  
 }
 
-  
-  function resetGrid(){
+function resetGrid(){
     for(let cell of cells){
       if(cell.id === startCell.id || cell.id === endCell.id){
         continue;
@@ -116,5 +118,7 @@ function runDijkstra(){
   dijkstraButton.addEventListener('click', runDijkstra);
   resetButton.addEventListener('click',resetGrid);
 
+  
+  
   
 });
