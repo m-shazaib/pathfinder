@@ -1,5 +1,5 @@
 .table {
-  border: 2px solid #0000;
+  border: 2px solid #00000000;
   border-spacing: 0;
 
 }
@@ -14,7 +14,7 @@
 }
 
 .inside-cell {
-  border: 1px solid black;
+  border: 5px solid rgb(119, 72, 2);
   width: 5vh;
   height: 5vh;
   margin: 0;
