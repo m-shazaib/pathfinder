@@ -8,7 +8,6 @@ export class DijkstraAlgorithm {
     this.visitedNodesInOrder = [];
     this.distances = {};
     this.previous = {};   //keeps track of previous node visited
-    this.condition = false;
   }
 
   
