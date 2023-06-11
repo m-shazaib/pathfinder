@@ -14,9 +14,18 @@
 }
 
 .inside-cell {
-  border: 5px solid rgb(119, 72, 2);
+  border: 4px solid rgb(119, 72, 2);
   width: 5vh;
   height: 5vh;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+#result{
+  font-size: 1.5rem;
+  color: rgb(22, 17, 10);
+  overflow-y: scroll;
   margin: 0;
   padding: 0;
   gap: 0;
