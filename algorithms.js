@@ -68,24 +68,24 @@ export class DijkstraAlgorithm {
         if (minDistanceNode.id === this.end.id) break;
     
         let neighbors = this.graph[minDistanceNode.id].neighbors;
-    
+        
         for (let neighbor of neighbors) {
           let tentativeDistance = this.distances[minDistanceNode.id] + 1;
     
           if (tentativeDistance < this.distances[neighbor]) {
             this.distances[neighbor] = tentativeDistance;
             this.previous[neighbor] = minDistanceNode.id;
-            this.visitedNodesInOrder.push(minDistanceNode.id);
           }
+          this.visitedNodesInOrder.push(minDistanceNode.id);
         }
+       
       }
     
       let visits = this.visitedNodesInOrder;
-      console.log('hey ' + visits);
-      this.pathColoring(visits, 'rgb(0, 255, 0)', 50, '.3s', () => {
+      this.pathColoring(visits, '#1d4e89', 50, '.3s', () => {
         // This callback function is executed after visited node coloring is completed
         let path = this.pathNodes();
-        this.pathColoring(path, 'rgb(0, 0, 255)', 200, '.6s');
+        this.pathColoring(path, '#edc531', 200, '.6s');
       });
     }
     
@@ -93,11 +93,11 @@ export class DijkstraAlgorithm {
       // Delay in milliseconds between each coloring operation
       for (let i = 0; i < nodes.length; i++) {
         setTimeout(() => {
-          if (nodes[i] !== this.start.id && nodes[i] !== this.end.id)
+          if (nodes[i] !== this.start.id && nodes[i] !== this.end.id && nodes[i] !== null){
             document.getElementById(nodes[i]).style.backgroundColor = color;
-          document.getElementById(nodes[i]).style.transition = time;
-    
-          if (i === nodes.length -1 && callback) {
+            document.getElementById(nodes[i]).style.transition = time;
+         }
+          if (i === nodes.length - 1 && callback) {
             // Execute the callback function after the last coloring operation
             setTimeout(callback, delay);
           }
@@ -105,6 +105,10 @@ export class DijkstraAlgorithm {
       }
     }
     
+    
+    getPath() {
+      return this.pathNodes().length;
+    }
 
 
 }
