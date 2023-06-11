@@ -82,10 +82,10 @@ export class DijkstraAlgorithm {
       }
     
       let visits = this.visitedNodesInOrder;
-      this.pathColoring(visits, '#1d4e89', 50, '.3s', () => {
+      this.pathColoring(visits, '#1d4e89', 10, '.3s', () => {
         // This callback function is executed after visited node coloring is completed
         let path = this.pathNodes();
-        this.pathColoring(path, '#edc531', 200, '.6s');
+        this.pathColoring(path, '#edc531', 40, '.6s');
       });
     }
     
