@@ -52,47 +52,43 @@
     
   </head>
   <body>
-    
     <div class="container-fluid m-0 p-0">
 
-    <!-- navbar -->
-      <nav class="navbar  d-flex justify-content-md-around m-0 row" style="background-color: #001845;font-family: 'Montserrat', sans-serif;"  >
+      <!-- navbar -->
+      <nav class="navbar d-flex justify-content-md-around m-0 row" style="background-color: #001845; font-family: 'Montserrat', sans-serif;">
+        <a href="#" class="col-12 text-center text-decoration-none fw-bolder mb-5" style="color:#0582ca; font-family: 'Kablammo', cursive; font-size: 4em;">DIJKSTRA VISUALIZER</a>
+        <div class="col-6  col-md-6 row-cols-sm-  d-md-flex">
+          <button class="btn col-sm-3 col-md-6"><i class="bi bi-search"></i> <p class="d-sm-none d-md-inline">VISUALIZE</p></button>
+          <button class="btn col-sm-3 col-md-6 gap-2"><i class="bi bi-x-octagon"></i> <p class="d-sm-none d-md-inline"> RESET GRID</p></button>
+        </div>
+      </nav>
+    
+      <!-- result of dijkstra algo -->
+      <span class="fw-bold text-primary" id="result" style="font-family: 'Montserrat', sans-serif;"></span>
+    </div>
+      <!-- table -->
+      <table id="table">
         
-        <a href="#" class="col-12 text-center text-decoration-none  fw-bolder mb-5" style="color:#0582ca;font-family: 'Kablammo', cursive;
-        font-size: 4em;">DIJKSTRA VISUALIZER</a>
-       
-        <div class="col-6 col-md-6 col-sm-12  d-md-flex">
-          <button class="btn col-sm-5"><i class="bi bi-search"></i> VISUALIZE</button>    
-          <button class="btn  col-sm-5 gap-2" ><i class="bi bi-x-octagon"></i> RESET GRID</button>
-        </div>
+      </table>
+    
+      <!-- footer -->
+      <div class="container-fluid m-0 p-0 bg-dark">
+        <footer class="text-center align-items-center">
+          <!-- <p class="text-info fs-4" style="font-family: 'IBM Plex Mono', monospace;">OOP SEMESTER PROJECT MADE WITH LOVE</p> -->
+          <div class="d-flex justify-content-center">
+            <a href="#" class="m-2"><i class="fa fa-brands fa-github fa-xl" style="color:aliceblue;"></i></a>
+            <a href="#" class="m-2"><i class="fa fa-brands fa-linkedin fa-xl" style="color:aliceblue;"></i></a>
+          </div>
+          <span class="text-white">&copy; 2023</span>
+        </footer>
+      </div>
+    
+
+
       
-    </nav>
     
-    <!-- result of dijkstra algo -->
-    <span class="fw-bold text-primary " id="result" style="font-family: 'Montserrat', sans-serif;"></span>
-    
-    <!-- table -->
-  <table>
-
-  </table>
+  <script src="index.js"  type="module"></script>
   
-
-
-    <!-- footer -->
-    <div class="container-fluid m-0 p-0 bg-dark">
-      <footer class="text-center align-items-center">
-        <p class="text-info fs-4 " style="font-family: 'IBM Plex Mono', monospace;">OOP SEMESTER PROJECT MADE WITH LOVE</p>
-        <div class="d-flex justify-content-center">
-          <a href="#" class="m-2"><i class="fa fa-brands fa-github fa-xl " style="color:aliceblue;"></i></a>
-          <a href="#" class="m-2 "><i class="fa fa-brands fa-linkedin fa-xl" style="color:aliceblue;"></i></a>
-        </div>
-        <span class="text-white">&copy; 2023</span>
-      </footer>
-    </div>
-    </div>
-
-  <script src="index.js" defer type="module"></script>
-  <script src="table.js" defer ></script>
 
 
     <script></script>
