@@ -8,7 +8,7 @@ import { DijkstraAlgorithm } from './algorithms.js';
 document.addEventListener('DOMContentLoaded', function (event) {
   var table = document.createElement("table");
   var rows = 15; // Update with the number of rows in your table
-  var cols = 33; // Update with the number of columns in your table
+  var cols = 45; // Update with the number of columns in your table
 
   // Create the table and append it to the document body
   for (let i = 0; i < rows; i++) {
